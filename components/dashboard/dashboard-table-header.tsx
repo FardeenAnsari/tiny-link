@@ -13,6 +13,7 @@ import {
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useState } from "react"
 import { toast } from "sonner"
@@ -32,6 +33,7 @@ export function DashboardTableHeader() {
   const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<LinkFormValues>({
+    resolver: zodResolver(linkSchema),
     defaultValues: {
       targetUrl: "",
       code: "",
