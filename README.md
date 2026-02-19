@@ -77,7 +77,6 @@ tiny-link/
 ├── prisma/
 │   ├── schema.prisma              # Database schema
 │   └── migrations/                # SQL migration files
-├── prisma.config.ts               # Prisma CLI configuration
 ├── docker-compose.yml             # Full-stack Docker Compose setup
 ├── dockerfile                     # Multi-stage Docker build
 ├── package.json
@@ -88,6 +87,11 @@ tiny-link/
 ---
 
 ## Database Schema
+
+**Prisma 7** is used with the **adapter pattern** (`@prisma/adapter-pg`), which means:
+- No `url` property in `schema.prisma` — the database connection is configured directly in the client (see `lib/prisma.ts`)
+- The `DATABASE_URL` is passed through the PostgreSQL adapter at runtime
+- No `prisma.config.ts` file is needed for this configuration
 
 A single `Link` model stores everything:
 
@@ -189,7 +193,7 @@ Returns application health status including uptime and database connectivity.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/MeAshikeqbal/tiny-link.git
+git clone https://github.com/FardeenAnsari/tiny-link.git
 cd tiny-link
 ```
 
@@ -248,9 +252,9 @@ docker compose up -d
 ```
 
 This will:
-- Pull/build the `ghcr.io/meashikeqbal/tiny-link:latest` image.
-- Start a PostgreSQL 15 container with persistent storage.
-- Expose the app on port **3000** and Postgres on port **5432**.
+- Build the TinyLink application image
+- Start a PostgreSQL 15 container with persistent storage
+- Expose the app on port **3000** and Postgres on port **5432**
 
 ### Building the image locally
 
